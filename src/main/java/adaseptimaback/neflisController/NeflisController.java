@@ -3,6 +3,7 @@ import adaseptimaback.Netflis2model.Response;
 import adaseptimaback.neflisService.NeflisContenidoService;
 import adaseptimaback.neflisService.NeflisOmdbService;
 import adaseptimaback.neflisService.OmdbContentService;
+import adaseptimaback.neflisService.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -19,6 +20,8 @@ import java.util.List;
         private NeflisOmdbService neflisOmdbService;
         @Autowired
         private OmdbContentService omdbContentService;
+        @Autowired
+        private UserService userService;
 
         @GetMapping("/contents")
         public List<Response> contenidos(@RequestParam(value = "titulo", required = false) String titulo) {
@@ -31,8 +34,13 @@ import java.util.List;
         }
         @GetMapping("/contenidos")
         public List <Response> conteniditos (@RequestParam(value = "title" , required = false) String titulo) {
-            return  omdbContentService.contenidosGenerales(titulo);
+            return omdbContentService.contenidosGenerales(titulo);
+        }
 
+        @GetMapping("users/{id}/watched")
+        public List<Response> contenidosVistosPorId(@PathVariable("id")Long id){
+            return userService.contenidoVistoPorUsuario(id);
+        }
 
 
       /**  @PostMapping("/mascotas")
@@ -46,5 +54,5 @@ import java.util.List;
             return this.mascotaService.updateMascota(mascota,id);
 
         }}*/
-        }
+
     }
